@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--设值注入(set构造器实现)-->
+    <bean id="student1" class="cn.wengzi.ioc.entity.Student">
+        <property name="id" value="1"/>
+        <property name="name" value="张三"/>
+        <property name="age" value="23"/>
+    </bean>
+
+    <!--有参构造函数注入-->
+    <bean id="student2" class="cn.wengzi.ioc.entity.Student">
+        <constructor-arg name="id" value="2"/>
+        <constructor-arg name="name" value="李四"/>
+        <constructor-arg name="age" value="24"/>
+        <!--注入 对象属性-->
+        <constructor-arg name="address" ref="address"/>
+    </bean>
+
+    <bean id="address" class="cn.wengzi.ioc.entity.Address">
+        <property name="id" value="1"/>
+        <property name="name" value="太原"/>
+    </bean>
+
+    <!--p命名空间注入-->
+    <bean id="student3" class="cn.wengzi.ioc.entity.Student" p:id="3" p:name="王五" p:age="25"></bean>
+
+    <!--Spring 的继承
+        student4 继承 student1 ,会继承student1的id属性，并覆盖student1的name和age属性。
+    -->
+    <bean id="student4" class="cn.wengzi.ioc.entity.Student" parent="student1">
+        <property name="name" value="李四"/>
+        <property name="age" value="24"/>
+    </bean>
+
+    <!--Spring 的依赖
+        student5 依赖于 student1 ,则student1会在 student5之前被实例化好
+        多个依赖的bean 可以用逗号分隔开
+    -->
+    <bean id="student5" class="cn.wengzi.ioc.entity.Student" depends-on="student1">
+        <property name="name" value="李四"/>
+        <property name="age" value="24"/>
+    </bean>
+
+    <!--bean注入集合-->
+    <bean id="collections" class="cn.wengzi.ioc.entity.Collections">
+        <property name="lists">
+            <list>
+                <value>Listone</value>
+                <value>Listtwo</value>
+                <value>Listthree</value>
+            </list>
+        </property>
+        <property name="arrays">
+            <array>
+                <value>Arrayone</value>
+                <value>Arraytwo</value>
+                <value>Arraythree</value>
+            </array>
+        </property>
+        <property name="maps">
+            <map>
+                <entry>
+                    <key>
+                        <value>one</value>
+                    </key>
+                    <value>Mapone</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>two</value>
+                    </key>
+                    <value>Maptwo</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>three</value>
+                    </key>
+                    <value>Mapthree</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>
