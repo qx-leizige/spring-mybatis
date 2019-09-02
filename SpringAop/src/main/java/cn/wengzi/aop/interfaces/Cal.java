@@ -1,7 +1,7 @@
 package cn.wengzi.aop.interfaces;
 
 /**
- * 计算器类,定义加减乘除方法
+ * 计算器接口,定义加减乘除方法
  */
 public interface Cal {
     public int add(int num1, int num2);
