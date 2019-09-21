@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wengzi.mapper.StudentMapper">
+
+    <select id="QueryStudentJoinStudentCardOneToOneByStuId" resultMap="Student_StudentCard_stuId"
+            parameterType="java.lang.Integer">
+        select s.*,c.cardInfo from student s inner join studentCard c
+        on s.cardid = c.cardid where s.id = 1
+    </select>
+
+    <resultMap id="Student_StudentCard_stuId" type="cn.wengzi.entity.Student">
+        <!--学生信息-->
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <!--一对一时,使用association映射;javaType指定类型-->
+        <association property="studentCard" javaType="cn.wengzi.entity.StudentCard">
+            <id column="cardid" property="cardId"/>
+            <result column="cardinfo" property="cardInfo"/>
+        </association>
+    </resultMap>
+
+
+    <select id="QueryStudentJoinStudentClassOneToManyByClassId" resultMap="Student_StudentClass_classId"
+            parameterType="java.lang.Integer">
+        select s.id,s.name,s.age,c.classname,d.cardInfo from
+        (studentclass c inner join student s on c.classid = s.classid)
+        inner join studentcard d
+         on s.cardid = d.cardid
+        where c.classid = #{id}
+    </select>
+    <resultMap id="Student_StudentClass_classId" type="cn.wengzi.entity.StudentClass">
+        <!--主类是StudentClass,先写班级信息-->
+        <id column="classid" property="classId"/>
+        <result column="classname" property="className"/>
+        <!--配置成员属性学生,属性类型使用javaType,属性的元素类型使用ofType-->
+        <collection property="students" ofType="cn.wengzi.entity.Student">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="age" property="age"/>
+            <!--学生的成员属性 学生证信息-->
+            <association property="studentCard" javaType="cn.wengzi.entity.StudentCard">
+                <id column="cardid" property="cardId"/>
+                <result column="cardinfo" property="cardInfo"/>
+            </association>
+        </collection>
+    </resultMap>
+</mapper>
