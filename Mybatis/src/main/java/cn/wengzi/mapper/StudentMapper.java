@@ -24,4 +24,19 @@ public interface StudentMapper {
      * @return
      */
     List<StudentClass> QueryStudentJoinStudentClassOneToManyByClassId(@Param("id") Integer ClassId);
+
+    /**
+     * 调用存储过程 查询全部学生
+     *
+     * @return
+     */
+    List<Student> queryStudentAll();
+
+    /**
+     * 调用存储过程 根据id查询学生信息
+     *
+     * @param id Student id
+     * @return
+     */
+    Student queryStudentById(Integer id);
 }
