@@ -13,8 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-
-public class testMybatis {
+/**
+ * @author wengzi
+ * @date 2019/10/11 21:11
+ * @Description Mybatis关联查询
+ */
+public class TestMybatis {
     public static void OneToOne() throws IOException {
         String mybatisConfig = "mybatis-config.xml";
         //读取mybatis-config.xml文件
