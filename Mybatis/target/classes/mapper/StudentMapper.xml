@@ -47,4 +47,29 @@
             </association>
         </collection>
     </resultMap>
+
+
+    <!--
+        注意：statementType=”CALLABLE” 必须为CALLABLE，告诉MyBatis去执行存储过程,否则会报错
+        Exception in thread “main” org.apache.ibatis.exceptions.PersistenceException
+     -->
+    <select id="queryStudentAll" resultType="cn.wengzi.entity.Student" useCache="false"
+            statementType="CALLABLE"
+    >
+        call findAll();
+    </select>
+
+
+    <!--
+        mode=IN 输入参数 mode=OUT输出参数 jdbcType为数据库定义的字段类型。
+        这样写 Mybatis会帮助我们自动回填输出的deviceCount的值。
+        当mode为OUT或INOUT时必须同时指定jdbcType。
+    -->
+    <select id="queryStudentById" resultType="cn.wengzi.entity.Student" useCache="false"
+            statementType="CALLABLE" parameterType="java.lang.Integer"
+    >
+            {call findById(
+                #{id, mode=IN,jdbcType=INTEGER}
+            )}
+    </select>
 </mapper>
